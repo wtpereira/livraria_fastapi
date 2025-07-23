@@ -1,0 +1,44 @@
+services:
+  db:
+    # Usa a imagem oficial do PostgreSQL da versão 15
+    image: postgres:15
+    restart: always
+    # Define as variáveis de ambiente para o PostgreSQL
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: livraria
+    # Mapeia a porta 5432 do host para a porta 5432 do contêiner (opcional, para acesso externo)
+    ports:
+      - "5432:5432"
+    # Mapeia um volume para persistir os dados do banco de dados
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  web:
+    # Constrói a imagem a partir do Dockerfile no diretório atual (.)
+    build: .
+    # Garante que o serviço 'db' seja iniciado antes do serviço 'api'
+    depends_on:
+      - db
+    # Mapeia a porta 8000 do host para a porta 8000 do contêiner
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./:/app
+    # Define as variáveis de ambiente para a API se conectar ao banco de dados
+    environment:
+      # formato: postgresql://[username:password@]host:port/database_name
+      DATABASE_URL: postgresql://postgres:postgres@db:5432/livraria
+      SECRET_KEY: "uma-senha-muito-forte"
+      ALGORITHM: "HS256"
+      ACCESS_TOKEN_EXPIRE_MINUTES: 30
+
+volumes:
+  pgdata:
