@@ -5,7 +5,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
 
-if os.path.exists('/.dockerenv'):
+if os.getenv('DOCKERENV', False):
     SQLALCHEMY_DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://postgres:postgres@localhost:5432/livraria")
 else:
     # sqlite:
