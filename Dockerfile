@@ -6,7 +6,7 @@ RUN python -m venv /opt/venv
 
 COPY requirements.txt .
 
-RUN . /opt/venv/bin/activate && pip install --no-chache-dir -r requirements.txt
+RUN . /opt/venv/bin/activate && pip install --no-cache-dir -r requirements.txt
 
 ENV PATH="/opt/venv/bin:$PATH"
 
