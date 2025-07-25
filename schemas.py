@@ -4,8 +4,8 @@ from typing import Optional
 # Schemas do Autor
 class AutorBase(BaseModel):
     nome: str = Field(..., min_length=3)
-    fone: str = Field(..., min_length=3)
-    biografia: Optional[str] = Field(None, min_length=3)
+    telefone: str = Field(..., min_length=3)
+    bio: Optional[str] = Field(None, min_length=3)
 
 
 class AutorCreate(AutorBase):
@@ -40,7 +40,7 @@ class Categoria(CategoriaBase):
 # Schemas da Editora
 class EditoraBase(BaseModel):
     nome: str = Field(..., min_length=3)
-    fone: str = Field(..., min_length=3)
+    telefone: str = Field(..., min_length=3)
     endereco: str = Field(min_length=3)
 
 

@@ -29,7 +29,7 @@ def adicionar_autores(novo_autor: schemas.AutorCreate, db: Session = Depends(get
     if autor_db:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail='E-mail já cadastrado!')
 
-    autor = models.Autor(nome=novo_autor.nome, email=novo_autor.email, fone=novo_autor.fone, biografia=novo_autor.biografia)
+    autor = models.Autor(nome=novo_autor.nome, email=novo_autor.email, telefone=novo_autor.telefone, bio=novo_autor.bio)
     db.add(autor)
     db.commit()
     db.refresh(autor)
@@ -53,8 +53,8 @@ def editar_autor(autor_id: int, autor_atualizado: schemas.AutorBase, db: Session
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='Autor não encontrado.')
 
     autor.nome = autor_atualizado.nome
-    autor.fone = autor_atualizado.fone
-    autor.biografia = autor_atualizado.biografia
+    autor.telefone = autor_atualizado.telefone
+    autor.bio = autor_atualizado.bio
     db.commit()
     db.refresh(autor)
 

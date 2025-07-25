@@ -20,7 +20,7 @@ def listar_editoras(db: Session = Depends(get_db)):
 
 @router.post('/', response_model=schemas.Editora, status_code=201)
 def adicionar_editoras(nova_editora: schemas.EditoraCreate, db: Session = Depends(get_db), usuario: Usuario = Depends(auth_utils.obter_usuario_logado)):
-    editora = models.Editora(nome=nova_editora.nome, fone=nova_editora.fone, endereco=nova_editora.endereco)
+    editora = models.Editora(nome=nova_editora.nome, telefone=nova_editora.telefone, endereco=nova_editora.endereco)
     db.add(editora)
     db.commit()
     db.refresh(editora)
@@ -44,7 +44,7 @@ def editar_editora(editora_id: int, editora_atualizada: schemas.EditoraBase, db:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='Editora não encontrada.')
 
     editora.nome = editora_atualizada.nome
-    editora.fone = editora_atualizada.fone
+    editora.telefone = editora_atualizada.telefone
     editora.endereco = editora_atualizada.endereco
     db.commit()
     db.refresh(editora)
